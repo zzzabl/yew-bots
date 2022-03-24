@@ -18,6 +18,7 @@ pub enum Msg {
     TurnPlay,
     AddSpeed(i32),
     TurnWall(i32, i32),
+    DefaultBot
 }
 
 pub struct App {
@@ -31,6 +32,7 @@ pub struct App {
     walls_input_ref: NodeRef,
     error_message: String,
     speed: u32,
+
 }
 
 impl Component for App {
@@ -60,6 +62,11 @@ impl Component for App {
 
                 let el = Self::get_html_element(&self.file_input_ref);
                 el.set_value("");
+                true
+            }
+
+            Msg::DefaultBot => {
+                self.field.as_mut().unwrap().add_bot("loop\nloop\nstep\nendLoop\nleftOrRight\nendLoop\nleft".to_string());
                 true
             }
 
@@ -240,21 +247,22 @@ impl App {
               <div style="display:flex;width:150px;flex-direction:column">
                  <div style="display:flex;justify-content:flex-end;margin-bottom:3px">
                     {"Длина:"}
-                    <input ref={self.width_input_ref.clone()} style="width:50px;margin-left:5px" type="number" /></div>
+                    <input ref={self.width_input_ref.clone()} style="width:50px;margin-left:5px" type="number" value="15" max="50" min="2" /></div>
                  <div style="display:flex;justify-content:flex-end;margin-bottom:3px">
                     {"Высота:"}
-                    <input ref={self.height_input_ref.clone()} style="width:50px;margin-left:5px"  type="number"/></div>
+                    <input ref={self.height_input_ref.clone()} style="width:50px;margin-left:5px"  type="number" value="15" max="50" min="2"/></div>
                  <div style="display:flex;justify-content:flex-end">
                     {"Стены %:"}
-                    <input ref={self.walls_input_ref.clone()} style="width:50px;margin-left:5px"  type="number"/></div>
-
+                    <input ref={self.walls_input_ref.clone()} style="width:50px;margin-left:5px"  type="number" value="30" max="90" min="0"/></div>
               </div>
               <div style="display:flex; width:100px;margin-left:10px">
                  <button class="button" onclick={ctx.link().callback(|_| Msg::Create)}>{"Создать"}</button>
               </div>
              if self.field.is_some() {
-                 <div style="display:flex;flex-direction:column; width:300px;margin-left:10px">
-                   <div style="margin-bottom:3px"><input type="file" multiple=false onchange={on_change_file_input} ref={self.file_input_ref.clone()} /></div>
+                 <div style="display:flex;flex-direction:column; width:200px;margin-left:10px">
+                   <div style="display:flex;flex-wrap:no-wrap;margin-bottom:3px">
+                        <input type="file" multiple=false onchange={on_change_file_input} ref={self.file_input_ref.clone()} />
+                   </div>
                    <div style="display:flex;align-items:center; margin-bottom:3px">
                      <div style="margin-right:5px">{"Cкорость:"}</div>
                      {self.speed}
@@ -265,7 +273,13 @@ impl App {
                      <button class="button" style="width:50px" onclick={ctx.link().callback(|_| Msg::TurnPlay)}> if self.play_is_on {{"Стоп"}} else {{"Старт"}} </button>
                    }
                 </div>
+                <div style="display:flex;flex-direction:column">
+                   <button class="button" onclick={ctx.link().callback(|_| Msg::DefaultBot)}>{"Дефолтный бот"}</button>
+                </div>
              }
+            <div style="display:flex;justify-content:flex-end;flex-grow:1;">
+                <a href="https://github.com/zzzabl/yew-bots">{"github.com/zzzabl/yew-bots"}</a>
+            </div>
             </div>
         }
     }
