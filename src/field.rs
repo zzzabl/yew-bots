@@ -1,6 +1,8 @@
 use std::collections::HashSet;
 use crate::bot::{Bot, BotActionEnum};
 use rand::Rng;
+use random_color::RandomColor;
+
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum DirectionEnum {
     Up,
@@ -37,7 +39,7 @@ impl Field {
             .filter(|bot| bot.x == x && bot.y == y)
             .collect();
         if !bots.is_empty() {
-            Some(FieldCellState::Bot(bots))
+            Some(FieldCellState::Bot(bots[0].color.clone()))
         } else if self.walls.contains(&(x, y)) {
             Some(FieldCellState::Wall)
         } else {
@@ -106,17 +108,6 @@ impl Field {
         } else {
             self.walls.insert((x, y));
         };
-
-        /*if let Some(idx) = self
-            .walls
-            .iter()
-            .position(|(el_x, el_y)| *el_x == x && *el_y == y)
-        {
-            self.walls.remove(idx);
-        } else {
-            self.walls.push((x, y));
-        }
-        */
     }
 
     fn get_random_empty_cell(&self) -> (i32, i32) {
@@ -147,6 +138,7 @@ pub struct BotWrapper {
     x: i32,
     y: i32,
     direction: DirectionEnum,
+    color: String
 }
 
 impl BotWrapper {
@@ -156,6 +148,7 @@ impl BotWrapper {
             x,
             y,
             direction,
+            color:  RandomColor::new().to_rgb_string()
         }
     }
 
@@ -200,7 +193,7 @@ impl BotWrapper {
     }
 }
 #[derive(Debug)]
-pub enum FieldCellState<'a> {
+pub enum FieldCellState {
     Wall,
-    Bot(Vec<&'a BotWrapper>),
+    Bot(String),
 }

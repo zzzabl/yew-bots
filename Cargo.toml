@@ -16,6 +16,7 @@ gloo-timers = "0.2.3"
 gloo-utils = "0.1.2"
 log = "0.4.6"
 wasm-logger = "0.2.0"
+random_color = {version = "0.6.1", features = ["wasm-bindgen"]}
 
 
 
