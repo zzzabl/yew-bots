@@ -17,5 +17,7 @@ jobs:
     steps:
     - uses: jetli/trunk-action@v0.1.0
     - uses: actions/checkout@v2
+    - name: Target
+      run: rustup target add wasm32-unknown-unknown
     - name: Build
       run: trunk build --release --public-url /yew-bots
