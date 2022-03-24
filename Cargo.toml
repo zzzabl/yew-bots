@@ -1,0 +1,25 @@
+[workspace]
+[package]
+name = "bots"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+getrandom = { version = "0.2", features = ["js"] }
+rand = "0.8.0"
+js-sys = "0.3"
+yew = "0.19"
+gloo-file = "0.2"
+gloo-timers = "0.2.3"
+gloo-utils = "0.1.2"
+log = "0.4.6"
+wasm-logger = "0.2.0"
+
+
+
+
+[dependencies.web-sys]
+version = "0.3"
+features = ["File"]
