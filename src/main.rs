@@ -215,7 +215,7 @@ impl App {
     fn build_cell_view(&self, ctx: &Context<Self>, x: i32, y: i32) -> Html {
         let cell_state = self.field.as_ref().unwrap().get_cell_state(x, y);
         let style = match cell_state {
-            Some(FieldCellState::Bot(color)) => format!("width:40px;height:40px;background-color:{}", color),
+            Some(FieldCellState::Bot(color)) => format!("width:10px;height:10px;background-color:{};margin:15px", color),
             Some(FieldCellState::Wall) => "width:40px;height:40px;background-color:green".to_string(),
             Option::None => "width:40px;height:40px".to_string(),
         };
